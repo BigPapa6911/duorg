@@ -1,20 +1,19 @@
 version: '3.8'
 
 services:
-    mysql:
-        image: mysql:8.4 # Versão da imagem do MySQL
-        container_name: ${DB_CONTAINER_NAME} # Nome do container
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}     # Senha do usuário root
-            MYSQL_DATABASE: ${DB_DATABASE}          # Nome do banco de dados padrão
-            MYSQL_USER: ${DB_USERNAME}              # Nome do usuário
-            MYSQL_PASSWORD: ${DB_PASSWORD}          # Senha do usuário
-        ports:
-            - "${DB_PORT}:3306" # Mapeia a porta 3306 do container para a máquina host
-        volumes:
-            - mysql_data:/var/lib/mysql # Persistência dos dados do banco
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: projeto_doacao
+      MYSQL_USER: projeto_user
+      MYSQL_PASSWORD: user_password
+    volumes:
+      - db_data:/var/lib/mysql
 
 volumes:
-    mysql_data:
-        driver: local
+  db_data:
