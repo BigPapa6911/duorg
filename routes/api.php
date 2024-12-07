@@ -8,8 +8,13 @@ use App\Http\Controllers\OrgaoController;
 use App\Http\Controllers\RelacaoUsuarioOrgaoController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\HospitalUsuarioController;
+use App\Http\Controllers\AuthController;
 
-Route::prefix('v1')->group(function () {
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     // Rotas de Usuários
     Route::apiResource('usuarios', UsuarioController::class);
 

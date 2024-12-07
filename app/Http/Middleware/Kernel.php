@@ -7,14 +7,16 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     /**
-     * As pilhas de middleware globais do aplicativo.
-     * Estas são executadas durante cada solicitação ao seu aplicativo.
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     *
+     * @var array
      */
     protected $middleware = [
-        \App\Http\Middleware\DebugMiddleware::class,
         \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Fruitcake\Cors\HandleCors::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
@@ -22,7 +24,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * Os grupos de middleware do aplicativo.
+     * The application's route middleware groups.
+     *
+     * @var array
      */
     protected $middlewareGroups = [
         'web' => [
@@ -42,11 +46,16 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * Os middleware de rota.
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

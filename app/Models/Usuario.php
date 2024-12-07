@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
+
+    use HasApiTokens, Notifiable;
+
     protected $fillable = ['nome', 'email', 'senha', 'id_endereco', 'id_perfil'];
+
+    protected $hidden = ['senha'];
 
     public function endereco()
     {
