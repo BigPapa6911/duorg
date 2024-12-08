@@ -6,5 +6,6 @@
 
 # Requirements
 - PHP >= 8.0 (usado na criação: 8.3.6)
+- php-mysql (sudo apt-get install php-mysql)
 - Composer
 - Docker (se você estiver usando containers)

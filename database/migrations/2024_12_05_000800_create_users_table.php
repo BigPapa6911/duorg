@@ -15,8 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone_number')->unique();
             $table->string('password');
+            $table->enum('type', ['RECEIVER', 'DONOR', 'ADMIN']);
+            $table->enum('gender', ['MALE', 'FEMALE']);
+            $table->string('cpf')->unique();
+            $table->string('rg')->unique();
+            $table->string('zip_code');
+            $table->string('state');
+            $table->string('city');
+            $table->string('district');
+            $table->string('address');
+
             $table->rememberToken();
             $table->timestamps();
         });
