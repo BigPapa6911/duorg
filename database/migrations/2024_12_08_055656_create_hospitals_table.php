@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('status')->default(true); // true: ativo, false: desativado
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

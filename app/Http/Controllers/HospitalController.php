@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Services\HospitalService;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Models\Hospital;
 
 class HospitalController extends Controller
 {
-    protected HospitalService $hospitalService;
+    protected $hospitalService;
+
+    public function index(Request $request)
+    {
+        $hospitals = Hospital::paginate($request->query('per_page', 10));
+        return response()->json($hospitals);
+    }
 
     public function __construct(HospitalService $hospitalService)
     {
         $this->hospitalService = $hospitalService;
     }
 
-    public function index(Request $request): JsonResponse
+    public function store(Request $request)
     {
-        $hospitals = $this->hospitalService->getPaginated($request);
-        return response()->json($hospitals);
-    }
+        $data = $request->all();
+        $hospital = $this->hospitalService->createHospital($data);
 
-    public function store(Request $request): JsonResponse
-    {
-        $hospital = $this->hospitalService->create($request);
-        return response()->json(['message' => 'Hospital criado com sucesso.', 'hospital' => $hospital], 201);
+        return response()->json($hospital, 201);
     }
 }

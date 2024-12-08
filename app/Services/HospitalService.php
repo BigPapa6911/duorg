@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Hospital;
+use Illuminate\Support\Facades\DB;
+use App\Services\AddressService;
 
 class HospitalService
 {
@@ -12,10 +14,23 @@ class HospitalService
         return Hospital::query()->paginate($perPage);
     }
 
-    public function create($data)
+    public function createHospital($data)
     {
-        return Hospital::create($data->only([
-            'name', 'cnpj', 'address', 'cep', 'phone', 'email', 'status',
-        ]));
+        return DB::transaction(function () use ($data) {
+            // Instancie o AddressService
+            $addressService = new AddressService();
+            $address = $addressService->createAddress($data['address']);
+
+            $hospital = Hospital::create([
+                'name' => $data['name'],
+                'cnpj' => $data['cnpj'],
+                'address_id' => $address->id,
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+                'status' => $data['status'] ?? true,
+            ]);
+
+            return $hospital;
+        });
     }
 }

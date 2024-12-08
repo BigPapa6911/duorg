@@ -11,16 +11,24 @@ class UserService
     public function createUser($data)
     {
         return DB::transaction(function () use ($data) {
+            // Criar endereço, se necessário
+            $address = null;
+            if (!empty($data['address'])) {
+                $address = (new AddressService())->createAddress($data['address']);
+            }
+    
+            // Criar usuário
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'type' => $data['type'] ?? null,
-                'birth_date' => $data['birth_date'] ?? null,
+                'birth_date' => $data['type'] === 'ADMIN' ? null : ($data['birth_date'] ?? null),
                 'cpf' => $data['cpf'],
                 'rg' => $data['rg'] ?? null,
-                'gender' => $data['gender'] ?? null,
+                'gender' => $data['type'] === 'ADMIN' ? null : ($data['gender'] ?? null),
                 'profile_id' => $data['profile_id'] ?? null,
+                'address_id' => $address->id,
             ]);
     
             if ($data['type'] === 'RECEPTOR') {
@@ -32,6 +40,7 @@ class UserService
                     'medical_history' => $data['medical_history'] ?? null,
                     'transplant_history' => $data['transplant_history'] ?? null,
                     'required_organ' => $data['required_organ'] ?? null,
+                    'address_id' => $address->id,
                 ]);
             } elseif ($data['type'] === 'DOADOR') {
                 MedicalInfo::create([
@@ -45,6 +54,7 @@ class UserService
                     'alcohol_consumer' => $data['alcohol_consumer'] ?? null,
                     'smoker' => $data['smoker'] ?? null,
                     'family_history' => $data['family_history'] ?? null,
+                    'address_id' => $address->id,
                 ]);
             }
     
