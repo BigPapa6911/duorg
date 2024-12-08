@@ -1,38 +1,14 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\PerfilController;
-use App\Http\Controllers\EnderecoController;
-use App\Http\Controllers\OrgaoController;
-use App\Http\Controllers\RelacaoUsuarioOrgaoController;
-use App\Http\Controllers\HospitalController;
-use App\Http\Controllers\HospitalUsuarioController;
-use App\Http\Controllers\AuthController;
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+require __DIR__.'/user.php';
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    // Rotas de Usuários
-    Route::apiResource('usuarios', UsuarioController::class);
+require __DIR__.'/auth.php';
 
-    // Rotas de Perfis
-    Route::apiResource('perfis', PerfilController::class);
+require __DIR__.'/hospital.php';
 
-    // Rotas de Endereços
-    Route::apiResource('enderecos', EnderecoController::class);
-
-    // Rotas de Órgãos
-    Route::apiResource('orgaos', OrgaoController::class);
-
-    // Rotas de Relações Usuário-Órgão
-    Route::apiResource('relacao-usuarios-orgaos', RelacaoUsuarioOrgaoController::class);
-
-    // Rotas de Hospitais
-    Route::apiResource('hospitais', HospitalController::class);
-
-    // Rotas de Relações Hospital-Usuário
-    Route::apiResource('hospital-usuarios', HospitalUsuarioController::class);
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
 });

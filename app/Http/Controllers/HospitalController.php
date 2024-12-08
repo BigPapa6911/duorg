@@ -2,50 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Hospital;
+use App\Services\HospitalService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class HospitalController extends Controller
 {
-    public function index()
+    protected HospitalService $hospitalService;
+
+    public function __construct(HospitalService $hospitalService)
     {
-        return Hospital::all();
+        $this->hospitalService = $hospitalService;
     }
 
-    public function store(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'nome' => 'required|string|unique:hospitais,nome',
-            'cidade' => 'required|string',
-            'estado' => 'required|string',
-        ]);
-
-        return Hospital::create($data);
+        $hospitals = $this->hospitalService->getPaginated($request);
+        return response()->json($hospitals);
     }
 
-    public function show($id)
+    public function store(Request $request): JsonResponse
     {
-        return Hospital::findOrFail($id);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $hospital = Hospital::findOrFail($id);
-
-        $data = $request->validate([
-            'nome' => 'required|string|unique:hospitais,nome,' . $id,
-            'cidade' => 'sometimes|string',
-            'estado' => 'sometimes|string',
-        ]);
-
-        $hospital->update($data);
-        return $hospital;
-    }
-
-    public function destroy($id)
-    {
-        $hospital = Hospital::findOrFail($id);
-        $hospital->delete();
-        return response(null, 204);
+        $hospital = $this->hospitalService->create($request);
+        return response()->json(['message' => 'Hospital criado com sucesso.', 'hospital' => $hospital], 201);
     }
 }
