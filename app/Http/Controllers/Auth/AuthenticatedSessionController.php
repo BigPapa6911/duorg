@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -16,15 +16,28 @@ class AuthenticatedSessionController extends Controller
         $this->authService = $authService;
     }
 
-    public function store(Request $request): Response
+    /**
+     * Realiza o login e retorna o token de autenticação.
+     */
+    public function store(Request $request): JsonResponse
     {
-        $this->authService->login($request);
-        return response()->noContent();
+        $result = $this->authService->login($request);
+
+        return response()->json([
+            'token' => $result['token'],
+            'user' => $result['user'],
+        ], 200);
     }
 
-    public function destroy(Request $request): Response
+    /**
+     * Realiza o logout e revoga o token do usuário.
+     */
+    public function destroy(Request $request): JsonResponse
     {
         $this->authService->logout($request);
-        return response()->noContent();
+
+        return response()->json([
+            'message' => 'Logout realizado com sucesso.',
+        ], 200);
     }
 }
