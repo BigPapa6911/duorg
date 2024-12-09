@@ -1,5 +1,17 @@
 # Duorg
 
+## 👨‍💻Integrantes
+- Daniel Araujo Debastiani- 2210875
+- Eduardo Zoldan Debastiani - 2210169
+- Gabriel Homsi Gonçalves de Almeida - 2210364
+- Gustavo Maia Moreira - 2211155
+- Hercules Gabriel Araújo Câmara - 2310953
+- Lucas Oliveira Santiago - 2210370
+- Luis Felipe Borges Rosa - 2211829
+- Rafael Luiz Pires Lima - 2211814
+- Matheus de Paula Costa Cavalcante - 2210950
+
+
 ## 📁 Estrutura de Pastas
 
 Abaixo está a estrutura de pastas do projeto para facilitar a navegação:
@@ -9,12 +21,13 @@ Abaixo está a estrutura de pastas do projeto para facilitar a navegação:
 │   ├── Http
 │   │   ├── Controllers        # Controladores da aplicação
 │   │   ├── Middleware         # Middlewares personalizados
+│   │   ├── Requests           # Requests de autenticação
 │   ├── Models                 # Modelos Eloquent
 │   ├── Providers              # Providers de serviços
 │   ├── Services               # Classes de serviço para lógica de negócio
 ├── bootstrap                  # Arquivos de inicialização
 ├── config                     # Configurações do sistema
-├── database                   # Arquivos de migração e seeds
+├── database                   # Arquivos de migração
 ├── public                     # Diretório público para assets e o index.php
 ├── resources                  # Views, templates e arquivos front-end
 ├── routes                     # Arquivos de rotas
